@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6DC44E3B268B27C0007094FA /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC44E3A268B27C0007094FA /* MessageModel.swift */; };
+		6DC44E3C268B27C0007094FA /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC44E3A268B27C0007094FA /* MessageModel.swift */; };
+		6DC44E3E268B4F91007094FA /* WebSocketObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC44E3D268B4F91007094FA /* WebSocketObservable.swift */; };
+		6DC44E3F268B4F91007094FA /* WebSocketObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC44E3D268B4F91007094FA /* WebSocketObservable.swift */; };
 		6DCB88EB268B0B610072C884 /* ChatSwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB88D8268B0B600072C884 /* ChatSwiftApp.swift */; };
 		6DCB88EC268B0B610072C884 /* ChatSwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB88D8268B0B600072C884 /* ChatSwiftApp.swift */; };
 		6DCB88ED268B0B610072C884 /* ChatMainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCB88D9268B0B600072C884 /* ChatMainWindow.swift */; };
@@ -16,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6DC44E3A268B27C0007094FA /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		6DC44E3D268B4F91007094FA /* WebSocketObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketObservable.swift; sourceTree = "<group>"; };
 		6DCB88D8268B0B600072C884 /* ChatSwiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSwiftApp.swift; sourceTree = "<group>"; };
 		6DCB88D9268B0B600072C884 /* ChatMainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMainWindow.swift; sourceTree = "<group>"; };
 		6DCB88DA268B0B610072C884 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,6 +50,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6DC44E39268B279F007094FA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6DC44E3A268B27C0007094FA /* MessageModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		6DCB88D2268B0B600072C884 = {
 			isa = PBXGroup;
 			children = (
@@ -57,9 +71,11 @@
 		6DCB88D7268B0B600072C884 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				6DC44E39268B279F007094FA /* Model */,
 				6DCB88D8268B0B600072C884 /* ChatSwiftApp.swift */,
 				6DCB88D9268B0B600072C884 /* ChatMainWindow.swift */,
 				6DCB88DA268B0B610072C884 /* Assets.xcassets */,
+				6DC44E3D268B4F91007094FA /* WebSocketObservable.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -187,7 +203,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DC44E3E268B4F91007094FA /* WebSocketObservable.swift in Sources */,
 				6DCB88ED268B0B610072C884 /* ChatMainWindow.swift in Sources */,
+				6DC44E3B268B27C0007094FA /* MessageModel.swift in Sources */,
 				6DCB88EB268B0B610072C884 /* ChatSwiftApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,7 +214,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DC44E3F268B4F91007094FA /* WebSocketObservable.swift in Sources */,
 				6DCB88EE268B0B610072C884 /* ChatMainWindow.swift in Sources */,
+				6DC44E3C268B27C0007094FA /* MessageModel.swift in Sources */,
 				6DCB88EC268B0B610072C884 /* ChatSwiftApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

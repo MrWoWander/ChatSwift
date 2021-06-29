@@ -11,7 +11,7 @@ struct ChatMainWindow: View {
     
     @State var message: String = ""
     
-    @State var stackMessage: [ChatStackMessage] = []
+    @StateObject var websocket = WebSocketObservable()
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -23,18 +23,17 @@ struct ChatMainWindow: View {
             ScrollViewReader { value in
                 GeometryReader { geometry in
                     ScrollView {
-                        ForEach(stackMessage, id: \.id) { stack in
+                        ForEach(websocket.stackMessage, id: \.message.id) { stack in
                             stack
-                                .frame(width: geometry.size.width, height: 200)
-                                .id(stack.id)
+                                .frame(width: geometry.size.width, height: 100)
+                                .id(stack.message.id)
                         }
-                        
                     }
                     .onAppear {
-                        value.scrollTo(stackMessage.last?.id)
+                        value.scrollTo(websocket.stackMessage.last?.message.id)
                     }
-                    .onChange(of: stackMessage.count) { _ in
-                        value.scrollTo(stackMessage.last?.id)
+                    .onChange(of: websocket.stackMessage.count) { _ in
+                        value.scrollTo(websocket.stackMessage.last?.message.id)
                     }
                 }
             }
@@ -50,9 +49,22 @@ struct ChatMainWindow: View {
                         return
                     }
                     
-                    let stack = ChatStackMessage(message: message)
+                    let messageModel = MessageModel(id: UUID(), userId: websocket.idUsers, message: message, date: Date())
                     
-                    self.stackMessage.append(stack)
+                    let stack = ChatStackMessage(message: messageModel)
+                    
+                    do {
+                        let jsonData = try JSONEncoder().encode(messageModel)
+                        let jsonString = String(data: jsonData, encoding: .utf8)
+                        
+                        if let str = jsonString {
+                            print(str)
+                            websocket.socket.send(.string(str)) { _ in }
+                        }
+                    } catch {
+                        
+                    }
+                    websocket.stackMessage.append(stack)
                     
                     message = ""
                     
@@ -67,13 +79,26 @@ struct ChatMainWindow: View {
 
 struct ChatStackMessage: View {
     
-    @State var id: UUID = UUID()
-    
-    let message: String
+    @State var message: MessageModel
     
     var body: some View {
         VStack {
-            Text(message)
+            HStack {
+                Text("Id users: \(message.userId)")
+                    .font(.subheadline)
+                Spacer()
+                Text(localizedDate(message.date))
+                    .font(.subheadline)
+            }
+            Text(message.message)
+                .font(.body)
         }
+    }
+    
+    func localizedDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d.MM.yy HH:mm:ss"
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        return dateFormatter.string(from: date)
     }
 }

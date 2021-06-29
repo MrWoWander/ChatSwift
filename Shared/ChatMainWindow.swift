@@ -38,42 +38,32 @@ struct ChatMainWindow: View {
                 }
             }
             
-            Spacer()
+            Divider()
             
             HStack {
-                TextField("message", text: $message)
+                TextField("message", text: $message,
+                          onCommit: {
+                            messageAction()
+                          })
                 
                 Button(action: {
-                    
-                    if message.isEmpty {
-                        return
-                    }
-                    
-                    let messageModel = MessageModel(id: UUID(), userId: websocket.idUsers, message: message, date: Date())
-                    
-                    let stack = ChatStackMessage(message: messageModel)
-                    
-                    do {
-                        let jsonData = try JSONEncoder().encode(messageModel)
-                        let jsonString = String(data: jsonData, encoding: .utf8)
-                        
-                        if let str = jsonString {
-                            print(str)
-                            websocket.socket.send(.string(str)) { _ in }
-                        }
-                    } catch {
-                        
-                    }
-                    websocket.stackMessage.append(stack)
-                    
-                    message = ""
-                    
+                    messageAction()
                 }, label: {
                     Text("Send")
                 })
             }
         }
         .padding(.all, 10.0)
+    }
+    
+    func messageAction() {
+        if message.isEmpty {
+            return
+        }
+        
+        websocket.sendMessage(message: message)
+        
+        message = ""
     }
 }
 

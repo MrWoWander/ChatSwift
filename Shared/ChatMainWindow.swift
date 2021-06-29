@@ -16,16 +16,28 @@ struct ChatMainWindow: View {
     var body: some View {
         VStack(alignment: .leading) {
             
-            Text("Chat")
-                .font(.title)
-                .fontWeight(.bold)
+            HStack {
+                VStack {
+                    Text("Chat")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    Text("Users: \(websocket.countUsers)")
+                }
+                Spacer()
+                
+                Text("User ID: \(websocket.userID)")
+            }
+            
+            Divider()
             
             ScrollViewReader { value in
                 GeometryReader { geometry in
                     ScrollView {
                         ForEach(websocket.stackMessage, id: \.message.id) { stack in
                             stack
-                                .frame(width: geometry.size.width, height: 100)
+                                .frame(width: geometry.size.width)
+                                .padding(.bottom, 10.0)
                                 .id(stack.message.id)
                         }
                     }

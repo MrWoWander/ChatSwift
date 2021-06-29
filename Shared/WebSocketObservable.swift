@@ -13,11 +13,13 @@ class WebSocketObservable: ObservableObject {
     
     @Published var stackMessage: [ChatStackMessage] = []
     
-    let idUsers = UUID()
+    @Published var countUsers: Int = 0
+    
+    let userID = UUID()
     
     init() {
         let session = URLSession(configuration: .default)
-        let url = URL(string: "ws://127.0.0.1:8080/chat/\(idUsers.uuidString)")!
+        let url = URL(string: "ws://localhost:8080/chat/\(userID.uuidString)")!
         self.socket = session.webSocketTask(with: url)
         socket.resume()
         
@@ -25,7 +27,7 @@ class WebSocketObservable: ObservableObject {
     }
     
     func sendMessage(message: String) {
-        let messageModel = MessageModel(id: UUID(), userId: idUsers, message: message, date: Date())
+        let messageModel = MessageModel(id: UUID(), userId: userID, message: message, date: Date())
         
         let stack = ChatStackMessage(message: messageModel)
         
@@ -52,16 +54,17 @@ class WebSocketObservable: ObservableObject {
                     switch data {
                     case.string(let message):
                         let jsonData = Data(message.utf8)
-                        print(message)
-                        do {
-                            let mes = try JSONDecoder().decode(MessageModel.self, from: jsonData)
-                            
+
+                        if let mes = try? JSONDecoder().decode(MessageModel.self, from: jsonData) {
                             DispatchQueue.main.async {
                                 self.stackMessage.append(.init(message: mes))
                             }
-                        } catch {
-                            print(error.localizedDescription)
+                        } else if let count = Int(message) {
+                            DispatchQueue.main.async {
+                                self.countUsers = count
+                            }
                         }
+                        
                     case .data(_):
                         break
                     @unknown default:
